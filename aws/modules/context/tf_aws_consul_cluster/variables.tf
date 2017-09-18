@@ -19,6 +19,8 @@ variable "instance_type" {
   default = "t2.small"
 }
 
+variable "private_key_path" {}
+
 variable "subnet_id" {
   description = "The VPC subnet the instance(s) will go in"
 }

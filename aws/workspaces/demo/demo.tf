@@ -7,9 +7,10 @@ module "vault_cluster" {
 }
 
 module "consul_cluster" {
-  source     = "../../modules/context/tf_aws_consul_cluster"
-  ami_id     = "${var.ami_id}"
-  key_name   = "${var.key_name}"
-  subnet_id  = "${var.subnet_id}"
-  aws_region = "${var.aws_region}"
+  source           = "../../modules/context/tf_aws_consul_cluster"
+  ami_id           = "${var.ami_id}"
+  key_name         = "${var.key_name}"
+  subnet_id        = "${var.subnet_id}"
+  aws_region       = "${var.aws_region}"
+  private_key_path = "${var.private_key_path}"
 }
