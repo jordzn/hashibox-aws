@@ -1,10 +1,23 @@
-// Module specific variables
-
-variable "instance_name" {
-  description = "Used to populate the Name tag. This is done in main.tf"
+# provider vars
+variable "aws_access_key" {
+    default     = ""
+}
+variable "aws_secret_key" {
+    default     = ""
+}
+variable "aws_region" {
+    default     = ""
 }
 
-variable "instance_type" {}
+# vault vars
+variable "instance_name" {
+  description = "Used to populate the Name tag. This is done in main.tf"
+  default     = "vault"
+}
+
+variable "instance_type" {
+  default = "t2.small"
+}
 
 variable "subnet_id" {
   description = "The VPC subnet the instance(s) will go in"
@@ -16,15 +29,17 @@ variable "ami_id" {
 
 variable "number_of_instances" {
   description = "number of instances to make"
-  default = 1
+  default = 3
 }
 
 variable "user_data" {
   description = "The path to a file with user_data for the instances"
+  default     = "vault_init.sh"
 }
 
 variable "tags" {
   default = {
     created_by = "terraform"
+    role       = "secrets-management"
  }
 }

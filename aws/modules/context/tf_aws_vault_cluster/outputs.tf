@@ -1,3 +1,3 @@
 output "vault_cluster_instance_ids" {
-  value = "${vault_cluster.ec2_instance.*.id}"
+  value = [ "${module.vault_cluster.ec2_instance_id}" ]
 }
