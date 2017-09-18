@@ -8,3 +8,5 @@ variable "subnet_id" {
 variable "ami_id" {
   description = "The AMI to use"
 }
+
+variable "key_name" {}

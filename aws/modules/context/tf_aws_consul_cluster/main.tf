@@ -1,4 +1,4 @@
-module "vault_cluster" {
+module "consul_cluster" {
   source              = "../../core/tf_aws_ec2_instance"
   instance_type       = "${var.instance_type}"
   instance_name       = "${var.instance_name}"

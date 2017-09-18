@@ -9,10 +9,10 @@ variable "aws_region" {
     default = ""
 }
 
-# vault vars
+# consul vars
 variable "instance_name" {
   description = "Used to populate the Name tag. This is done in main.tf"
-  default     = "vault"
+  default     = "consul"
 }
 
 variable "instance_type" {
@@ -34,7 +34,7 @@ variable "number_of_instances" {
 
 variable "user_data" {
   description = "The path to a file with user_data for the instances"
-  default     = "vault_init.sh"
+  default     = "consul_init.sh"
 }
 
 variable "key_name" {}
@@ -42,6 +42,6 @@ variable "key_name" {}
 variable "tags" {
   default = {
     created_by = "terraform"
-    role       = "secrets-management"
+    role       = "service-discovery"
  }
 }
