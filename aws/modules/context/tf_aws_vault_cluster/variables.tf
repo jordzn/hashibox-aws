@@ -39,6 +39,8 @@ variable "user_data" {
 
 variable "key_name" {}
 
+variable "consul_ip" {}
+
 variable "tags" {
   default = {
     created_by = "terraform"

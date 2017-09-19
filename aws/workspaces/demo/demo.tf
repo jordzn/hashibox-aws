@@ -4,6 +4,7 @@ module "vault_cluster" {
   key_name   = "${var.key_name}"
   subnet_id  = "${var.subnet_id}"
   aws_region = "${var.aws_region}"
+  consul_ip  = "${element(module.consul_cluster.consul_cluster_instance_priv_ips, 0)}"
 }
 
 module "consul_cluster" {

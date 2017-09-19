@@ -7,7 +7,7 @@ module "consul_cluster" {
   aws_region          = "${var.aws_region}"
   subnet_id           = "${var.subnet_id}"
   number_of_instances = "${var.number_of_instances}"
-  user_data           = "${path.module}/files/${var.user_data}"
+  user_data           = "${file("${path.module}/files/${var.user_data}")}"
   aws_access_key      = "${var.aws_access_key}"
   aws_secret_key      = "${var.aws_secret_key}"
   aws_region          = "${var.aws_region}"
