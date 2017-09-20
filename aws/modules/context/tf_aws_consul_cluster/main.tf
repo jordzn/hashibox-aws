@@ -14,7 +14,7 @@ module "consul_cluster" {
 }
 
 resource "null_resource" "cluster" {
-  count = "${var.number_of_instances}"
+  #count = "${var.number_of_instances}"
   # Changes to any instance of the cluster requires re-provisioning
   triggers {
     cluster_instance_ids = "${join(",", module.consul_cluster.ec2_instance_ids)}"
@@ -23,7 +23,7 @@ resource "null_resource" "cluster" {
   # Bootstrap script can run on any instance of the cluster
   # So we just choose the first in this case
   connection {
-    host        = "${element(module.consul_cluster.instance_public_ips, count.index)}"
+    host        = "${element(module.consul_cluster.instance_public_ips, 0)}"
     type        = "ssh"
     user        = "ec2-user"
     private_key = "${file("${var.private_key_path}")}"
