@@ -12,6 +12,12 @@ variable "subnet_id" {
   description = "The VPC subnet the instance(s) will go in"
 }
 
+variable "security_group_ids" {
+  description = "The IDs of security groups to attach to"
+  type        = "list"
+  default     = []
+}
+
 variable "ami_id" {
   description = "The AMI to use"
 }
