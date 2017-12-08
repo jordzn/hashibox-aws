@@ -9,10 +9,10 @@ touch /etc/vault/vault.hcl
 chown root:root /etc/vault/vault.hcl
 chmod 0644 /etc/vault/vault.hcl
 mkdir /etc/vault/plugins
-wget -O vault-plugin-database-oracle https://releases.hashicorp.com/vault-plugin-database-oracle/0.1.0/
-mv vault-plugin-database-oracle /etc/vault/plugins
+wget -O vault-plugin-database-oracle.zip https://releases.hashicorp.com/vault-plugin-database-oracle/0.1.1/vault-plugin-database-oracle_0.1.1_linux_amd64.zip
+unzip vault-plugin-database-oracle.zip -d /etc/vault/plugins
 chown root:root /etc/vault/plugins/vault-plugin-database-oracle
-chmod 0644 /etc/vault/plugins/vault-plugin-database-oracle
+chmod 0744 /etc/vault/plugins/vault-plugin-database-oracle
 export VAULT_ADDR=http://0.0.0.0:8200
 cat <<EOF > /etc/vault/vault.hcl
 backend "consul" {
@@ -45,8 +45,3 @@ cat <<EOF > /etc/consul.d/vault-leader.json
   }
 }
 EOF
-self_private_ip=$$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
-instance_id=$$(curl http://169.254.169.254/latest/meta-data/instance-id)
-consul agent -data-dir=/etc/consul.d -node=vault-$${instance_id} -bind=$${self_private_ip} -config-dir=/etc/consul.d &>/dev/null &
-sleep 5
-consul join ${consul_ip}

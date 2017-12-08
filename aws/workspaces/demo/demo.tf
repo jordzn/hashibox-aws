@@ -1,10 +1,11 @@
 module "vault_cluster" {
-  source     = "../../modules/context/tf_aws_vault_cluster"
-  ami_id     = "${var.ami_id}"
-  key_name   = "${var.key_name}"
-  subnet_id  = "${var.subnet_id}"
-  aws_region = "${var.aws_region}"
-  consul_ip  = "${element(module.consul_cluster.consul_cluster_instance_priv_ips, 0)}"
+  source           = "../../modules/context/tf_aws_vault_cluster"
+  ami_id           = "${var.ami_id}"
+  key_name         = "${var.key_name}"
+  subnet_id        = "${var.subnet_id}"
+  aws_region       = "${var.aws_region}"
+  private_key_path = "${var.private_key_path}"
+  consul_ip        = "${element(module.consul_cluster.consul_cluster_instance_priv_ips, 0)}"
 }
 
 module "consul_cluster" {

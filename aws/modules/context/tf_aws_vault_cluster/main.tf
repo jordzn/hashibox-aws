@@ -20,3 +20,29 @@ module "vault_cluster" {
   aws_secret_key      = "${var.aws_secret_key}"
   aws_region          = "${var.aws_region}"
 }
+
+resource "null_resource" "consul_join" {
+  count = "${var.number_of_instances}"
+  # Changes to any instance of the cluster requires re-provisioning
+  triggers {
+    cluster_instance_ids = "${join(",", module.vault_cluster.ec2_instance_ids)}"
+  }
+
+  # Bootstrap script can run on any instance of the cluster
+  # So we just choose the first in this case
+  connection {
+    host        = "${element(module.vault_cluster.instance_public_ips, count.index)}"
+    type        = "ssh"
+    user        = "ec2-user"
+    private_key = "${file("${var.private_key_path}")}"
+  }
+
+  provisioner "remote-exec" {
+    # Bootstrap script called with private_ip of each node in the clutser
+    inline = [
+      "consul agent -data-dir=/etc/consul.d -node=vault-${element(module.vault_cluster.ec2_instance_ids, count.index)} -bind=${element(module.vault_cluster.instance_private_ips, count.index)} -config-dir=/etc/consul.d -enable-script-checks=true &>/etc/consul.d/consul.log &",
+      "sleep 60",
+      "consul join ${var.consul_ip}",
+    ]
+  }
+}

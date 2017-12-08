@@ -13,7 +13,7 @@ module "consul_cluster" {
   aws_region          = "${var.aws_region}"
 }
 
-resource "null_resource" "cluster" {
+resource "null_resource" "consul_cluster" {
   #count = "${var.number_of_instances}"
   # Changes to any instance of the cluster requires re-provisioning
   triggers {
