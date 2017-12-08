@@ -6,6 +6,7 @@ module "consul_cluster" {
   ami_id              = "${var.ami_id}"
   aws_region          = "${var.aws_region}"
   subnet_id           = "${var.subnet_id}"
+  security_group_ids  = "${var.security_group_ids}"
   number_of_instances = "${var.number_of_instances}"
   user_data           = "${file("${path.module}/files/${var.user_data}")}"
   aws_access_key      = "${var.aws_access_key}"
@@ -32,7 +33,7 @@ resource "null_resource" "consul_cluster" {
   provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
     inline = [
-      "sleep 30",
+      "sleep 45",
       "consul join ${join(" ", module.consul_cluster.instance_private_ips)}",
     ]
   }
