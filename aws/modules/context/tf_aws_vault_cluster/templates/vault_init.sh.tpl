@@ -1,18 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
-yum install wget unzip -y
+sudo yum install wget unzip -y
 wget -O vault.zip https://releases.hashicorp.com/vault/0.8.2/vault_0.8.2_linux_amd64.zip?_ga=2.37379296.1575219777.1505724488-1522196117.1504177107
-unzip vault.zip -d /usr/bin
-mkdir /etc/vault
+sudo unzip vault.zip -d /usr/bin
+sudo mkdir /etc/vault
+sudo chmod 0755 /etc/vault
 touch /etc/vault/vault.hcl
-chown root:root /etc/vault/vault.hcl
-chmod 0644 /etc/vault/vault.hcl
-mkdir /etc/vault/plugins
+sudo chown root:root /etc/vault/vault.hcl
+sudo chmod 0644 /etc/vault/vault.hcl
+sudo mkdir /etc/vault/plugins
 wget -O vault-plugin-database-oracle.zip https://releases.hashicorp.com/vault-plugin-database-oracle/0.1.1/vault-plugin-database-oracle_0.1.1_linux_amd64.zip
 unzip vault-plugin-database-oracle.zip -d /etc/vault/plugins
-chown root:root /etc/vault/plugins/vault-plugin-database-oracle
-chmod 0744 /etc/vault/plugins/vault-plugin-database-oracle
+sudo chown root:root /etc/vault/plugins/vault-plugin-database-oracle
+sudo chmod 0744 /etc/vault/plugins/vault-plugin-database-oracle
 export VAULT_ADDR=http://0.0.0.0:8200
 cat <<EOF > /etc/vault/vault.hcl
 backend "consul" {
@@ -29,13 +30,15 @@ listener "tcp" {
   tls_disable = 1
 }
 EOF
-mkdir /tmp/logs
+sudo mkdir /tmp/logs
+sudo chmod 0755 /tmp/logs
 sleep 30
 vault server -config=/etc/vault/vault.hcl >/tmp/logs/vault.log 2>&1 &
 
 wget -O consul.zip https://releases.hashicorp.com/consul/0.9.3/consul_0.9.3_linux_amd64.zip?_ga=2.152032953.1230732308.1505739795-602927451.1505739795
 unzip consul.zip -d /usr/bin
-mkdir -p /etc/consul.d
+sudo mkdir -p /etc/consul.d
+sudo chmod 0755 /etc/consul.d
 cat <<EOF > /etc/consul.d/vault-leader.json
 {
   "check": {

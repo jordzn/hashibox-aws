@@ -14,6 +14,7 @@ module "vault_cluster" {
   ami_id              = "${var.ami_id}"
   aws_region          = "${var.aws_region}"
   subnet_id           = "${var.subnet_id}"
+  security_group_ids  = "${var.security_group_ids}"
   number_of_instances = "${var.number_of_instances}"
   user_data           = "${data.template_file.vault_init.rendered}"
   aws_access_key      = "${var.aws_access_key}"
@@ -40,7 +41,8 @@ resource "null_resource" "consul_join" {
   provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
     inline = [
-      "consul agent -data-dir=/etc/consul.d -node=vault-${element(module.vault_cluster.ec2_instance_ids, count.index)} -bind=${element(module.vault_cluster.instance_private_ips, count.index)} -config-dir=/etc/consul.d -enable-script-checks=true &>/etc/consul.d/consul.log &",
+      "sleep 30",
+      "consul agent -data-dir=/etc/consul.d -node=vault-${element(module.vault_cluster.ec2_instance_ids, count.index)} -bind=${element(module.vault_cluster.instance_private_ips, count.index)} -config-dir=/etc/consul.d -enable-script-checks=true >/tmp/logs/consul.log 2>&1 &",
       "sleep 60",
       "consul join ${var.consul_ip}",
     ]
