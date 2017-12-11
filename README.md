@@ -26,7 +26,7 @@ ami_id           = "ami-xxxxx"
 subnet_id        = "subnet-xxxxx"
 aws_region       = "eu-west-1"
 key_name         = "active_key_in_aws"
-private_key_path = "/local/path/.ssh/to_active_key_in/aws.pem
+private_key_path = "/local/path/.ssh/to_active_key_in/aws.pem"
 vpc_id           = "vpc-xxxxx"
 ```
 
