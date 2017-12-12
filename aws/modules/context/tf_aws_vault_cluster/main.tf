@@ -41,7 +41,7 @@ resource "null_resource" "consul_join" {
   provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
     inline = [
-      "sleep 30",
+      "sleep 60",
       "consul agent -data-dir=/etc/consul.d -node=vault-${element(module.vault_cluster.ec2_instance_ids, count.index)} -bind=${element(module.vault_cluster.instance_private_ips, count.index)} -config-dir=/etc/consul.d -enable-script-checks=true >/tmp/logs/consul.log 2>&1 &",
       "sleep 60",
       "consul join ${var.consul_ip}",

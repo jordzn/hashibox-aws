@@ -31,14 +31,14 @@ listener "tcp" {
 }
 EOF
 sudo mkdir /tmp/logs
-sudo chmod 0755 /tmp/logs
+sudo chmod 0777 /tmp/logs
 sleep 30
 vault server -config=/etc/vault/vault.hcl >/tmp/logs/vault.log 2>&1 &
 
 wget -O consul.zip https://releases.hashicorp.com/consul/0.9.3/consul_0.9.3_linux_amd64.zip?_ga=2.152032953.1230732308.1505739795-602927451.1505739795
 unzip consul.zip -d /usr/bin
 sudo mkdir -p /etc/consul.d
-sudo chmod 0755 /etc/consul.d
+sudo chown ec2-user:ec2-user /etc/consul.d
 cat <<EOF > /etc/consul.d/vault-leader.json
 {
   "check": {
